@@ -4815,13 +4815,6 @@ public class Campaign implements ITechManager {
         int nLVee = stats.getNumberOfUnitsByType(Entity.ETYPE_TANK, false, true);
         int nHVee = stats.getNumberOfUnitsByType(Entity.ETYPE_TANK);
         int nAero = stats.getNumberOfUnitsByType(Entity.ETYPE_AEROSPACEFIGHTER);
-        int nSC = stats.getNumberOfUnitsByType(Entity.ETYPE_SMALL_CRAFT);
-        int nCF = stats.getNumberOfUnitsByType(Entity.ETYPE_CONV_FIGHTER);
-        int nBA = stats.getNumberOfUnitsByType(Entity.ETYPE_BATTLEARMOR);
-        int nMechInf = 0;
-        int nMotorInf = 0;
-        int nFootInf = 0;
-        int nProto = stats.getNumberOfUnitsByType(Entity.ETYPE_PROTOMECH);
         int nDropship = stats.getNumberOfUnitsByType(Entity.ETYPE_DROPSHIP);
         int nCollars = stats.getTotalDockingCollars();
         double nCargo = cargoStats.getTotalCargoCapacity(); // ignoring refrigerated/insulated/etc.
@@ -4832,18 +4825,10 @@ public class Campaign implements ITechManager {
 
         // calculate the number of units left untransported
         int noMech = Math.max(nMech - stats.getOccupiedBays(Entity.ETYPE_MECH), 0);
-        int noDS = Math.max(nDropship - stats.getOccupiedBays(Entity.ETYPE_DROPSHIP), 0);
-        int noSC = Math.max(nSC - stats.getOccupiedBays(Entity.ETYPE_SMALL_CRAFT), 0);
-        int noCF = Math.max(nCF - stats.getOccupiedBays(Entity.ETYPE_CONV_FIGHTER), 0);
         int noASF = Math.max(nAero - stats.getOccupiedBays(Entity.ETYPE_AEROSPACEFIGHTER), 0);
         int nolv = Math.max(nLVee - stats.getOccupiedBays(Entity.ETYPE_TANK, true), 0);
         int nohv = Math.max(nHVee - stats.getOccupiedBays(Entity.ETYPE_TANK), 0);
-        int noinf = Math.max(stats.getNumberOfUnitsByType(Entity.ETYPE_INFANTRY) - stats.getOccupiedBays(Entity.ETYPE_INFANTRY), 0);
-        int noBA = Math.max(nBA - stats.getOccupiedBays(Entity.ETYPE_BATTLEARMOR), 0);
-        int noProto = Math.max(nProto - stats.getOccupiedBays(Entity.ETYPE_PROTOMECH), 0);
         int freehv = Math.max(stats.getTotalHeavyVehicleBays() - stats.getOccupiedBays(Entity.ETYPE_TANK), 0);
-        int freeinf = Math.max(stats.getTotalInfantryBays() - stats.getOccupiedBays(Entity.ETYPE_INFANTRY), 0);
-        int freeba = Math.max(stats.getTotalBattleArmorBays() - stats.getOccupiedBays(Entity.ETYPE_BATTLEARMOR), 0);
         int freeSC = Math.max(stats.getTotalSmallCraftBays() - stats.getOccupiedBays(Entity.ETYPE_SMALL_CRAFT), 0);
         int noCargo = (int) Math.ceil(Math.max(carriedCargo - nCargo, 0));
 
@@ -5959,7 +5944,7 @@ public class Campaign implements ITechManager {
         entity.removeMisc(EquipmentTypeLookup.TREE_CLUB);
 
         // Then reset mounted equipment
-        for (Mounted m : entity.getEquipment()) {
+        for (Mounted<?> m : entity.getEquipment()) {
             m.setUsedThisRound(false);
             m.resetJam();
         }
@@ -6362,7 +6347,7 @@ public class Campaign implements ITechManager {
         getHangar().forEachUnit(u -> {
             Entity en = u.getEntity();
             if (null != en) {
-                game.addEntity(en.getId(), en);
+                game.addEntity(en);
             }
         });
     }

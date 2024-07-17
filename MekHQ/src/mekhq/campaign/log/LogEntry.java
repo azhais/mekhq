@@ -73,7 +73,7 @@ public class LogEntry implements Cloneable {
         StringBuilder sb = new StringBuilder();
         sb.append(MHQXMLUtility.indentStr(indent)).append("<logEntry>");
         if (date != null) {
-            sb.append("<date>").append(MHQXMLUtility.saveFormattedDate(date)).append("</date>");
+            sb.append("<date>").append(date.toString()).append("</date>");
         }
         sb.append("<desc>").append(MHQXMLUtility.escape(desc)).append("</desc>");
         if (type != null) {

@@ -31,6 +31,6 @@ public class DateAdapter extends XmlAdapter<String, LocalDate> {
 
     @Override
     public String marshal(final LocalDate object) throws Exception {
-        return MHQXMLUtility.saveFormattedDate(object);
+        return object.toString();
     }
 }
